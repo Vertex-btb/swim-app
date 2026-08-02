@@ -46,33 +46,15 @@ const KEYS = {
     NUTRITION: 'aeroswim_nutrition'
 };
 
-// Default seeds
-const DEFAULT_PROFILE = { name: "Leo", age: 14, gender: "Boys", team: "Aero Swim Club", sheetsUrl: "", sheetsKey: "" };
+// Default seeds (Clean Empty Slate for New Users)
+const DEFAULT_PROFILE = { name: "Swimmer Name", age: 14, gender: "Boys", team: "Unattached", sheetsUrl: "", sheetsKey: "" };
 
-const DEFAULT_TIMES = [
-    { id: 't1', date: '2026-05-10', location: 'YMCA Aquatic Center', event: '50-free', course: 'SCY', time: '25.98' },
-    { id: 't2', date: '2026-05-10', location: 'YMCA Aquatic Center', event: '100-back', course: 'SCY', time: '01:04.22' },
-    { id: 't3', date: '2026-05-11', location: 'YMCA Aquatic Center', event: '50-back', course: 'SCY', time: '29.80' },
-    { id: 't4', date: '2026-06-14', location: 'EAC Swim Complex', event: '50-free', course: 'LCM', time: '29.12' },
-    { id: 't5', date: '2026-06-14', location: 'EAC Swim Complex', event: '100-back', course: 'LCM', time: '01:11.80' },
-    { id: 't6', date: '2026-06-15', location: 'EAC Swim Complex', event: '50-fly', course: 'LCM', time: '31.45' },
-    { id: 't7', date: '2026-07-04', location: 'Community Pool', event: '50-free', course: 'SCY', time: '24.95' },
-    { id: 't8', date: '2026-07-04', location: 'Community Pool', event: '100-back', course: 'SCY', time: '01:01.89' },
-    { id: 't9', date: '2026-07-05', location: 'Community Pool', event: '50-back', course: 'SCY', time: '28.14' },
-    { id: 't10', date: '2026-07-05', location: 'Community Pool', event: '100-IM', course: 'SCY', time: '01:03.12' }
-];
+const DEFAULT_TIMES = [];
 
-const DEFAULT_WORKOUTS = [
-    { id: 'w1', date: '2026-07-15', distance: 3800, focus: 'Endurance', duration: 90, details: 'Warmup:\n400 Choice, 4x100 IM Drill on 1:45\n\nMain Set:\n3x (4x100 Free on 1:25, 200 Pull active recovery on 3:00)\n\nCooldown:\n200 Choice Easy', notes: 'Felt highly aerobic today. Maintained a steady pace on the 100s.' },
-    { id: 'w2', date: '2026-07-16', distance: 3000, focus: 'Sprint', duration: 75, details: 'Warmup:\n300 choice, 6x50 Kick on 1:10\n\nMain Set:\n12x50 Free/Fly Sprint on 1:15 (Max Effort!)\n8x25 Start & Turn work\n\nCooldown:\n200 easy back', notes: 'Coach said reaction time off the block was much better. Target fly finish was solid.' },
-    { id: 'w3', date: '2026-07-17', distance: 3500, focus: 'Technique', duration: 90, details: 'Warmup:\n500 Choice\n\nMain Set:\n10x100 Back/Breast Stroke count drill on 1:45\n8x50 Underwaters (no breath past 15m)\n\nCooldown:\n300 choice', notes: 'Focused on tight streamline off the walls. Streamline should stay under 5m minimum.' }
-];
+const DEFAULT_WORKOUTS = [];
 
 const DEFAULT_NUTRITION = {
-    history: {
-        '2026-07-17': { waterCups: 6, meals: { breakfast: "Oatmeal with sliced bananas, blueberries, and honey", lunch: "Turkey and swiss wrap, baby carrots, apple slices", dinner: "Grilled chicken breast, brown rice, steamed broccoli", snacks: "Greek yogurt with granola, pre-workout protein shake" }, calories: 2600 },
-        '2026-07-18': { waterCups: 8, meals: { breakfast: "Scrambled eggs, whole wheat toast, orange juice", lunch: "Quinoa salad with mixed vegetables and grilled salmon", dinner: "Whole grain pasta with marinara sauce, lean beef meatballs, mixed greens", snacks: "Mixed nuts, fruit smoothie, pre-workout amino energy" }, calories: 2900 }
-    }
+    history: {}
 };
 
 let cachedDb = null;
