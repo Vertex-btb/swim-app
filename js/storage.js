@@ -88,7 +88,11 @@ export async function syncFromSheets(force = false) {
         const delimiter = profile.sheetsUrl.includes('?') ? '&' : '?';
         const syncUrl = `${profile.sheetsUrl}${delimiter}key=${encodeURIComponent(profile.sheetsKey || '')}`;
         
-        const response = await fetch(syncUrl);
+        const response = await fetch(syncUrl, {
+            method: 'GET',
+            redirect: 'follow',
+            cache: 'no-cache'
+        });
         const data = await response.json();
         
         if (data.error) {
@@ -112,8 +116,15 @@ export async function syncFromSheets(force = false) {
         window.dispatchEvent(new Event('workoutsChanged'));
         window.dispatchEvent(new Event('nutritionChanged'));
         
+        return {
+            success: true,
+            timesCount: (data.times || []).length,
+            workoutsCount: (data.workouts || []).length
+        };
+        
     } catch (err) {
         console.error("Sheets sync failed: ", err);
+        return { success: false, error: err.message };
     } finally {
         isSyncing = false;
     }

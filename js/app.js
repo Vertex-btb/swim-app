@@ -131,14 +131,20 @@ function setupProfileModalListeners() {
         
         // If URL or Key changed or added, force refetch from Google Sheets
         if (sheetsUrl && (sheetsUrl !== oldProfile.sheetsUrl || sheetsKey !== oldProfile.sheetsKey)) {
-            // Display loading indicator
             const viewTitle = document.getElementById('view-title');
-            const originalTitle = viewTitle.innerText;
-            viewTitle.innerText = "Syncing with Sheets...";
+            const originalTitle = viewTitle ? viewTitle.innerText : '';
+            if (viewTitle) viewTitle.innerText = "⚡ Syncing with Google Sheets...";
             
-            await syncFromSheets(true);
+            const res = await syncFromSheets(true);
             
-            viewTitle.innerText = originalTitle;
+            if (res && res.success) {
+                if (viewTitle) viewTitle.innerText = `✓ Synced ${res.timesCount || 0} Swims from Sheets!`;
+                setTimeout(() => {
+                    if (viewTitle) viewTitle.innerText = originalTitle;
+                }, 2500);
+            } else {
+                if (viewTitle) viewTitle.innerText = originalTitle;
+            }
         }
         
         // Re-render active view
