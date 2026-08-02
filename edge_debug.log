@@ -1,0 +1,35 @@
+[54792:35404:0802/115335.716:WARNING:chrome\browser\extensions\activity_log\activity_log_policy.cc:71] Scheduling init
+[54792:35404:0802/115335.716:WARNING:chrome\browser\extensions\activity_log\activity_log_policy.cc:71] Scheduling init
+[53124:25324:0802/115335.907:ERROR:ui\gl\direct_composition_support.cc:247] GetGpuDriverOverlayInfo: Failed to retrieve video device
+[45820:22192:0802/115336.075:ERROR:net\socket\ssl_client_socket_impl.cc:977] handshake failed; returned -1, SSL error code 1, net_error -101
+[54792:35404:0802/115336.381:WARNING:chrome\browser\edge_pinned_sites\pinned_sites_cache.cc:238] Cache isn't initialized
+[54792:35404:0802/115336.406:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/chart.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.407:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/chart.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.407:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/chart.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.407:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/chart.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.407:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/chart.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.408:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@latest.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.408:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@latest.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.408:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@latest.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.408:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@latest.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.408:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@latest.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.484:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@1.28.0/dist/umd/lucide.min.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.485:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@1.28.0/dist/umd/lucide.min.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.485:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@1.28.0/dist/umd/lucide.min.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.485:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://unpkg.com/lucide@1.28.0/dist/umd/lucide.min.js.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.713:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.713:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.713:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.713:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.713:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.714:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.723:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.723:INFO:CONSOLE:0] "Tracking Prevention blocked access to storage for https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2.", source: http://localhost:8080/ (0)
+[54792:35404:0802/115336.918:WARNING:chrome\browser\edge_pinned_sites\pinned_sites_cache.cc:238] Cache isn't initialized
+[54792:35404:0802/115337.350:WARNING:components\signin\internal\identity_manager\account_fetcher_service.cc:231] Edge does not support fetching account capabilities
+[54792:35404:0802/115337.350:WARNING:components\signin\internal\identity_manager\account_fetcher_service.cc:192] Should not execute: Tests depending on this function may fail
+[54792:35404:0802/115337.838:INFO:CONSOLE:4335] "[ProtocolLaunch] handler constructed; wiring port events.", source: chrome-extension://ndcpkimcihhghdcddljkfmmjccdmcmof/background.rollup.js (4335)
+[54792:35404:0802/115338.164:ERROR:chrome\browser\task_manager\providers\fallback_task_provider.cc:126] Every renderer should have at least one task provided by a primary task provider. If a "Renderer" fallback task is shown, it is a bug. If you have repro steps, please file a new bug and tag it as a dependency of crbug.com/40528867.
+[45820:22192:0802/115338.588:ERROR:net\socket\ssl_client_socket_impl.cc:977] handshake failed; returned -1, SSL error code 1, net_error -101
+[45820:22192:0802/115339.935:ERROR:net\socket\ssl_client_socket_impl.cc:977] handshake failed; returned -1, SSL error code 1, net_error -101
+[45820:22192:0802/115339.951:ERROR:net\socket\ssl_client_socket_impl.cc:977] handshake failed; returned -1, SSL error code 1, net_error -101

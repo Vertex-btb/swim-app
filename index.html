@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AeroSwim - Premium swimmer analytics, times tracker, workout logger, and nutrition companion.">
+    <title>AeroSwim | Performance Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i data-lucide="waves" class="logo-icon"></i>
+                    <span class="logo-text">AeroSwim</span>
+                </div>
+            </div>
+            
+            <!-- Swimmer Profile Card -->
+            <div class="profile-card" id="sidebar-profile-card">
+                <div class="avatar-container">
+                    <div class="avatar" id="swimmer-avatar">AS</div>
+                    <button class="edit-profile-btn" id="open-profile-settings" title="Edit Swimmer Profile">
+                        <i data-lucide="edit-3"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h3 id="swimmer-name">Swimmer Name</h3>
+                    <p id="swimmer-meta">Age: -- | Team: --</p>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" id="nav-dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#times" class="nav-item" id="nav-times">
+                    <i data-lucide="timer"></i>
+                    <span>Times & Meets</span>
+                </a>
+                <a href="#standards" class="nav-item" id="nav-standards">
+                    <i data-lucide="award"></i>
+                    <span>Time Standards</span>
+                </a>
+                <a href="#analytics" class="nav-item" id="nav-analytics">
+                    <i data-lucide="trending-up"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#forecast" class="nav-item" id="nav-forecast">
+                    <i data-lucide="compass"></i>
+                    <span>Season Forecast</span>
+                </a>
+                <a href="#workouts" class="nav-item" id="nav-workouts">
+                    <i data-lucide="dumbbell"></i>
+                    <span>Workouts</span>
+                </a>
+                <a href="#nutrition" class="nav-item" id="nav-nutrition">
+                    <i data-lucide="apple"></i>
+                    <span>Nutrition</span>
+                </a>
+                <a href="#data-manager" class="nav-item" id="nav-data-manager">
+                    <i data-lucide="database"></i>
+                    <span>Data Manager</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="copyright">AeroSwim v1.0 &copy; 2026</p>
+            </div>
+        </aside>
+
+        <!-- Main Viewport -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="mobile-toggle" id="mobile-sidebar-toggle" aria-label="Toggle Navigation">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="top-bar-title">
+                    <h1 id="view-title">Dashboard</h1>
+                </div>
+                <div class="top-bar-actions" style="display: flex; gap: 12px; align-items: center;">
+                    <button class="btn btn-secondary" id="global-pdf-export-btn" style="padding: 9px 14px; background: rgba(157, 78, 237, 0.15); color: #9d4edd; border: 1px solid rgba(157, 78, 237, 0.3); font-weight: 700;" title="Export PDF Analytics Report">
+                        <i data-lucide="file-text"></i>
+                        <span>Export PDF</span>
+                    </button>
+                    <button class="btn btn-secondary" id="global-sync-btn" style="padding: 10px; display: none;" title="Sync with Google Sheets">
+                        <i data-lucide="refresh-cw"></i>
+                    </button>
+                    <button class="btn btn-primary" id="quick-add-time-btn">
+                        <i data-lucide="plus"></i>
+                        <span>Log Time</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic View Wrapper -->
+            <div class="view-content" id="main-viewport">
+                <!-- Javascript modules will inject view HTML here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    
+    <!-- Profile Settings Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Edit Swimmer Profile</h2>
+                <button class="close-modal" id="close-profile-modal">&times;</button>
+            </div>
+            <form id="profile-form" class="modal-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="input-swimmer-name">Name</label>
+                    <input type="text" id="input-swimmer-name" required placeholder="Enter swimmer's name" autocomplete="off">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-swimmer-age">Age</label>
+                        <input type="number" id="input-swimmer-age" required min="1" max="120" placeholder="e.g. 14" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-swimmer-gender">Gender</label>
+                        <select id="input-swimmer-gender" required>
+                            <option value="Boys">Boy / Male</option>
+                            <option value="Girls">Girl / Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-swimmer-team">Team / Club</label>
+                    <input type="text" id="input-swimmer-team" placeholder="e.g. Blue Fins Swim Club" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="input-sheets-url">Google Sheets Sync URL</label>
+                    <input type="url" id="input-sheets-url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+                    <span style="font-size: 11px; color: var(--text-muted);">Paste your deployed Apps Script Web App URL. Leave blank for Local Storage.</span>
+                </div>
+                <div class="form-group">
+                    <label for="input-sheets-key">Google Sheets Sync Key</label>
+                    <input type="password" id="input-sheets-key" placeholder="Enter your API secret password" autocomplete="new-password">
+                    <span style="font-size: 11px; color: var(--text-muted);">Secret key set in your Apps Script Code.gs variable.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-profile-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Log Time Modal -->
+    <div class="modal" id="time-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="time-modal-title">Log Swim Time</h2>
+                <button class="close-modal" id="close-time-modal">&times;</button>
+            </div>
+            <form id="time-form" class="modal-form" autocomplete="off">
+                <input type="hidden" id="time-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="time-input-date">Date</label>
+                        <input type="date" id="time-input-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time-input-course">Course</label>
+                        <select id="time-input-course" required>
+                            <option value="SCY">Short Course Yards (SCY)</option>
+                            <option value="LCM">Long Course Meters (LCM)</option>
+                            <option value="SCM">Short Course Meters (SCM)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="time-input-event">Event</label>
+                        <select id="time-input-event" required>
+                            <optgroup label="Freestyle">
+                                <option value="50-free">50 Free</option>
+                                <option value="100-free">100 Free</option>
+                                <option value="200-free">200 Free</option>
+                                <option value="500-free">500 Free (SCY)</option>
+                                <option value="1000-free">1000 Free (SCY)</option>
+                                <option value="1650-free">1650 Free (SCY)</option>
+                            </optgroup>
+                            <optgroup label="Backstroke">
+                                <option value="50-back">50 Back</option>
+                                <option value="100-back">100 Back</option>
+                                <option value="200-back">200 Back</option>
+                            </optgroup>
+                            <optgroup label="Breaststroke">
+                                <option value="50-breast">50 Breast</option>
+                                <option value="100-breast">100 Breast</option>
+                                <option value="200-breast">200 Breast</option>
+                            </optgroup>
+                            <optgroup label="Butterfly">
+                                <option value="50-fly">50 Fly</option>
+                                <option value="100-fly">100 Fly</option>
+                                <option value="200-fly">200 Fly</option>
+                            </optgroup>
+                            <optgroup label="Individual Medley">
+                                <option value="100-IM">100 IM (SCY/SCM)</option>
+                                <option value="200-IM">200 IM</option>
+                                <option value="400-IM">400 IM</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time-input-value">Time (MM:SS.hh or SS.hh)</label>
+                        <input type="text" id="time-input-value" required placeholder="e.g. 58.23 or 02:04.51" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="time-input-location">Location / Meet Name</label>
+                    <input type="text" id="time-input-location" required placeholder="e.g. YMCA Aquatic Center" autocomplete="off">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-time-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-time-btn">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Log Workout Modal -->
+    <div class="modal" id="workout-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container" style="max-width: 850px; width: 90%;">
+            <div class="modal-header">
+                <h2>Log Practice or Regimen</h2>
+                <button class="close-modal" id="close-workout-modal">&times;</button>
+            </div>
+            <form id="workout-form" class="modal-form" autocomplete="off">
+                <input type="hidden" id="workout-type" value="pool">
+                
+                <!-- Workout Type Selector Buttons -->
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px;">Workout Category</label>
+                    <div style="display: flex; gap: 12px;">
+                        <button type="button" class="btn" id="workout-type-pool" style="flex: 1; padding: 10px; border-radius: 8px; font-family: 'Outfit'; font-weight: 700; background: var(--accent-cyan); color: #000; border: 1px solid var(--accent-cyan); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i data-lucide="droplet" style="width: 14px; height: 14px;"></i> In Pool Practice
+                        </button>
+                        <button type="button" class="btn" id="workout-type-dryland" style="flex: 1; padding: 10px; border-radius: 8px; font-family: 'Outfit'; font-weight: 700; background: transparent; color: #fff; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i data-lucide="dumbbell" style="width: 14px; height: 14px;"></i> Dry Land Regimen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Shared Date & Time Fields -->
+                <div class="form-row" style="margin-bottom: 16px;">
+                    <div class="form-group">
+                        <label for="workout-input-date">Date</label>
+                        <input type="date" id="workout-input-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="workout-input-time">Time of Day</label>
+                        <input type="time" id="workout-input-time" required>
+                    </div>
+                </div>
+
+                <!-- In-Pool Specific Fields -->
+                <div id="pool-fields" style="display: flex; flex-direction: column; gap: 14px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="workout-input-distance">Total Distance (yards/meters)</label>
+                            <input type="number" id="workout-input-distance" required min="0" placeholder="e.g. 3500">
+                        </div>
+                        <div class="form-group">
+                            <label for="workout-input-duration">Duration (minutes)</label>
+                            <input type="number" id="workout-input-duration" required min="1" placeholder="e.g. 90">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="workout-input-focus">Workout Focus</label>
+                        <select id="workout-input-focus" required>
+                            <option value="Endurance" selected>Aerobic / Endurance</option>
+                            <option value="Sprint">Sprint / Power</option>
+                            <option value="Technique">Technique / Drills</option>
+                            <option value="Recovery">Recovery</option>
+                            <option value="Test Sets">Test Sets / USRPT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="workout-input-details">Workout Sets / Details</label>
+                        <textarea id="workout-input-details" rows="4" placeholder="e.g. Warmup: 400 choice&#10;Main set: 10 x 100 Free on 1:30&#10;Cooldown: 200 easy"></textarea>
+                    </div>
+                </div>
+
+                <!-- Dry Land Specific Checklist Tiles Container -->
+                <div id="dryland-fields" style="display: none; flex-direction: column; gap: 16px;">
+                    <input type="hidden" id="dryland-active-day" value="1">
+                    <label style="font-weight: 700; font-size: 13px; color: var(--text-secondary); margin-bottom: 2px;">Select Weekly Day Regimen & Check Off Completed Exercises</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                        <!-- Day 1 Tile -->
+                        <div class="dryland-tile" id="tile-day-1" style="border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 14px; background: rgba(0, 240, 255, 0.03); cursor: pointer; transition: all var(--transition-fast);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="font-family: 'Outfit'; font-weight: 800; font-size: 14px; color: var(--accent-cyan);">Day 1: Rowing & Strength</span>
+                                <input type="radio" name="dryland-day-radio" id="radio-day-1" checked style="accent-color: var(--accent-cyan); cursor: pointer;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; line-height: 1.4; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-1-check" style="margin-top: 2px; accent-color: var(--accent-cyan);">
+                                    <span>Warm-up: 2m light rowing</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-1-check" style="margin-top: 2px; accent-color: var(--accent-cyan);">
+                                    <span>Rowing Intervals (5m): 30s fast/easy</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-1-check" style="margin-top: 2px; accent-color: var(--accent-cyan);">
+                                    <span>Dumbbell Goblet Squats (3x12 reps)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-1-check" style="margin-top: 2px; accent-color: var(--accent-cyan);">
+                                    <span>Dumbbell Floor Press (3x12 reps)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-1-check" style="margin-top: 2px; accent-color: var(--accent-cyan);">
+                                    <span>Plank Finisher: 45s front plank</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Day 2 Tile -->
+                        <div class="dryland-tile" id="tile-day-2" style="border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.01); cursor: pointer; transition: all var(--transition-fast); opacity: 0.5;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="font-family: 'Outfit'; font-weight: 800; font-size: 14px; color: var(--accent-purple);">Day 2: Run & Core</span>
+                                <input type="radio" name="dryland-day-radio" id="radio-day-2" style="accent-color: var(--accent-purple); cursor: pointer;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; line-height: 1.4; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-2-check" disabled style="margin-top: 2px; accent-color: var(--accent-purple);">
+                                    <span>The Easy Run: 12m jog</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-2-check" disabled style="margin-top: 2px; accent-color: var(--accent-purple);">
+                                    <span>Squat Jumps (2 sets x 8 reps)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-2-check" disabled style="margin-top: 2px; accent-color: var(--accent-purple);">
+                                    <span>Streamline Holds (3 sets x 30s)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-2-check" disabled style="margin-top: 2px; accent-color: var(--accent-purple);">
+                                    <span>Superman Holds (2 sets x 10 reps)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Day 3 Tile -->
+                        <div class="dryland-tile" id="tile-day-3" style="border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.01); cursor: pointer; transition: all var(--transition-fast); opacity: 0.5;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="font-family: 'Outfit'; font-weight: 800; font-size: 14px; color: var(--accent-gold);">Day 3: Peloton & Upper</span>
+                                <input type="radio" name="dryland-day-radio" id="radio-day-3" style="accent-color: var(--accent-gold); cursor: pointer;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; line-height: 1.4; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-3-check" disabled style="margin-top: 2px; accent-color: var(--accent-gold);">
+                                    <span>Peloton Spin: 10m high cadence</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-3-check" disabled style="margin-top: 2px; accent-color: var(--accent-gold);">
+                                    <span>Dumbbell Overhead Press (2x10)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-3-check" disabled style="margin-top: 2px; accent-color: var(--accent-gold);">
+                                    <span>Dumbbell Romanian Deadlifts (2x12)</span>
+                                </label>
+                                <label style="display: flex; align-items: flex-start; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" class="day-3-check" disabled style="margin-top: 2px; accent-color: var(--accent-gold);">
+                                    <span>Scapular Wall Slides (2 minutes)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Field (Always Visible) -->
+                <div class="form-group" style="margin-top: 16px;">
+                    <label for="workout-input-notes">Coach Comments & Notes</label>
+                    <input type="text" id="workout-input-notes" placeholder="e.g. Felt strong, Dumbbells felt light, legs felt flushed.">
+                </div>
+
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" id="cancel-workout-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-workout-btn">Save Workout Log</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dynamic JavaScript Modules -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
