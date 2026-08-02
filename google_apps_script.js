@@ -34,7 +34,7 @@ function doGet(e) {
     // 1. Fetch Profile
     var profileSheet = getOrCreateSheet(ss, "Profile", ["Name", "Age", "Team"]);
     var profileData = profileSheet.getDataRange().getValues();
-    var profile = { name: "Leo", age: 14, team: "Aero Swim Club" };
+    var profile = { name: "Swimmer Name", age: 14, team: "Unattached" };
     if (profileData.length > 1) {
       var headers = profileData[0].map(normalizeHeader);
       var nameIdx = headers.indexOf("name");

@@ -108,7 +108,18 @@ export async function syncFromSheets(force = false) {
         cachedDb = data;
         
         // Save local copy
-        if (data.profile) localStorage.setItem(KEYS.PROFILE, JSON.stringify({ ...profile, ...data.profile }));
+        if (data.profile && data.profile.name && data.profile.name !== 'Leo' && data.profile.name !== 'Swimmer Name') {
+            localStorage.setItem(KEYS.PROFILE, JSON.stringify({
+                ...profile,
+                name: data.profile.name || profile.name,
+                age: data.profile.age || profile.age,
+                team: data.profile.team || profile.team,
+                gender: data.profile.gender || profile.gender || 'Boys'
+            }));
+        } else {
+            // Keep local profile intact (preserve user name, age, team, sheetsUrl, sheetsKey)
+            localStorage.setItem(KEYS.PROFILE, JSON.stringify(profile));
+        }
         if (data.times) localStorage.setItem(KEYS.TIMES, JSON.stringify(data.times));
         if (data.workouts) localStorage.setItem(KEYS.WORKOUTS, JSON.stringify(data.workouts));
         if (data.nutrition) localStorage.setItem(KEYS.NUTRITION, JSON.stringify(data.nutrition));
