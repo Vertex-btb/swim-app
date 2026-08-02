@@ -75,12 +75,15 @@ export function initializeStorage() {
 export async function syncFromSheets(force = false) {
     const profile = getProfile();
     if (!profile.sheetsUrl) {
-        cachedDb = null; // Clear remote cache
-        return;
+        cachedDb = null;
+        return { success: false, error: 'No Sync URL provided' };
     }
     
-    if (isSyncing && !force) return;
+    if (isSyncing && !force) return { success: false, error: 'Sync already in progress' };
     isSyncing = true;
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8-second max timeout
     
     try {
         console.log("Syncing from Google Sheets in background...");
@@ -91,8 +94,10 @@ export async function syncFromSheets(force = false) {
         const response = await fetch(syncUrl, {
             method: 'GET',
             redirect: 'follow',
-            cache: 'no-cache'
+            signal: controller.signal
         });
+        clearTimeout(timeoutId);
+        
         const data = await response.json();
         
         if (data.error) {
@@ -123,8 +128,10 @@ export async function syncFromSheets(force = false) {
         };
         
     } catch (err) {
-        console.error("Sheets sync failed: ", err);
-        return { success: false, error: err.message };
+        clearTimeout(timeoutId);
+        const errMsg = err.name === 'AbortError' ? 'Sync timed out (Google Sheets did not respond in 8 seconds)' : err.message;
+        console.error("Sheets sync failed: ", errMsg);
+        return { success: false, error: errMsg };
     } finally {
         isSyncing = false;
     }

@@ -193,16 +193,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (icon) icon.classList.add('spinning');
             syncBtn.disabled = true;
             
-            // Force fetch remote data
-            await syncFromSheets(true);
-            
-            // Re-render active view to show newly downloaded data
-            await handleRouting();
-            
-            setTimeout(() => {
-                if (icon) icon.classList.remove('spinning');
-                syncBtn.disabled = false;
-            }, 800);
+            try {
+                const res = await syncFromSheets(true);
+                if (res && res.error) {
+                    alert("Sync Notice: " + res.error);
+                }
+                await handleRouting();
+            } catch (err) {
+                console.error("Manual sync failed: ", err);
+            } finally {
+                setTimeout(() => {
+                    if (icon) icon.classList.remove('spinning');
+                    syncBtn.disabled = false;
+                }, 400);
+            }
         });
     }
 
