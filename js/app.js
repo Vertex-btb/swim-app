@@ -8,6 +8,7 @@ import { initTimesView, setupTimeModalListeners } from './times.js';
 import { initStandardsView } from './standards.js';
 import { initAnalyticsView } from './analytics.js';
 import { initForecastView } from './forecast.js';
+import { initHolidayInvitationalView } from './holidayInvitational.js';
 import { initWorkoutsView, setupWorkoutModalListeners } from './workouts.js';
 import { initNutritionView } from './nutrition.js';
 import { initDataManagerView } from './import-export.js';
@@ -20,6 +21,7 @@ const ROUTES = {
     '#standards': { title: 'Time Standards', init: initStandardsView },
     '#analytics': { title: 'Performance Analytics', init: initAnalyticsView },
     '#forecast': { title: 'Season & Course Forecast', init: initForecastView },
+    '#holiday-invitational': { title: 'Holiday Invitational Target', init: initHolidayInvitationalView },
     '#workouts': { title: 'Training Log', init: initWorkoutsView },
     '#nutrition': { title: 'Nutrition & Hydration', init: initNutritionView },
     '#data-manager': { title: 'Data Manager', init: initDataManagerView }
