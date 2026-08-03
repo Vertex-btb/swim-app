@@ -153,23 +153,24 @@ function setupProfileModalListeners() {
         await handleRouting();
     });
     
-    document.querySelectorAll('.edit-profile-trigger').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+    // Global event delegation for all profile triggers (handles dynamic DOM elements)
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.edit-profile-trigger, #open-profile-settings, #top-bar-profile-btn, #sidebar-profile-card');
+        if (trigger) {
+            e.preventDefault();
             e.stopPropagation();
             openProfileModal();
-        });
+        }
     });
-
-    const sidebarCard = document.getElementById('sidebar-profile-card');
-    if (sidebarCard) {
-        sidebarCard.addEventListener('click', openProfileModal);
-    }
 
     const closeBtn = document.getElementById('close-profile-modal');
     if (closeBtn) closeBtn.addEventListener('click', closeProfileModal);
 
     const cancelBtn = document.getElementById('cancel-profile-btn');
     if (cancelBtn) cancelBtn.addEventListener('click', closeProfileModal);
+
+    const overlay = document.querySelector('#profile-modal .modal-overlay');
+    if (overlay) overlay.addEventListener('click', closeProfileModal);
 }
 
 // --- Application Core Entrypoint ---
