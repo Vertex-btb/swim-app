@@ -185,33 +185,22 @@ function setupProfileModalListeners() {
         });
     }
     
-    // Clean profile trigger listener without blocking default events
+    // Single document click handler for profile triggers and modal close targets
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest('.edit-profile-trigger, #open-profile-settings, #top-bar-profile-btn');
         if (trigger) {
             e.preventDefault();
             openProfileModal();
+            return;
         }
 
-        // Direct Nav link click handler fallback
-        const navItem = e.target.closest('.nav-item');
-        if (navItem) {
-            const href = navItem.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                window.location.hash = href;
-                handleRouting();
-            }
+        const closeBtn = e.target.closest('#close-profile-modal, #cancel-profile-btn, #profile-modal .modal-overlay');
+        if (closeBtn) {
+            e.preventDefault();
+            closeProfileModal();
+            return;
         }
     });
-
-    const closeBtn = document.getElementById('close-profile-modal');
-    if (closeBtn) closeBtn.addEventListener('click', closeProfileModal);
-
-    const cancelBtn = document.getElementById('cancel-profile-btn');
-    if (cancelBtn) cancelBtn.addEventListener('click', closeProfileModal);
-
-    const overlay = document.querySelector('#profile-modal .modal-overlay');
-    if (overlay) overlay.addEventListener('click', closeProfileModal);
 }
 
 // --- Application Core Entrypoint ---

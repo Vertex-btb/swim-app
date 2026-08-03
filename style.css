@@ -735,27 +735,25 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
 }
 
-/* --- Modals --- */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    z-index: 200;
+    z-index: 9999;
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-normal);
 }
 
 .modal.active {
+    display: flex !important;
     opacity: 1 !important;
     pointer-events: auto !important;
-    visibility: visible !important;
-    z-index: 9999 !important;
 }
 
 .modal-overlay {
