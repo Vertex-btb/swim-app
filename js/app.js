@@ -84,9 +84,9 @@ async function handleRouting() {
     
     // 4. Close mobile sidebar menu drawer if open
     const sidebar = document.getElementById('app-sidebar');
-    if (sidebar) {
-        sidebar.classList.remove('open');
-    }
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
 }
 
 // --- Swimmer Profile Modal Handling ---
@@ -175,13 +175,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupTimeModalListeners();
     setupWorkoutModalListeners();
     
-    // 5. Wire mobile sidebar sliding drawer
+    // 5. Wire mobile sidebar sliding drawer & backdrop
     const mobileToggle = document.getElementById('mobile-sidebar-toggle');
     const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
     
     if (mobileToggle && sidebar) {
         mobileToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
+            const isOpen = sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('active', isOpen);
+        });
+    }
+
+    if (backdrop && sidebar) {
+        backdrop.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            backdrop.classList.remove('active');
         });
     }
 
