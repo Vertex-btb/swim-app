@@ -368,6 +368,19 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(1px);
 }
 
+.btn-outline {
+    background: rgba(0, 240, 255, 0.08);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.btn-outline:hover {
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+}
+
 .btn-secondary {
     background: rgba(255, 255, 255, 0.05);
     border-color: var(--glass-border);
