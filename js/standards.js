@@ -21,6 +21,20 @@ export function getAgeBracketForAge(age, system = 'USA') {
     }
 }
 
+// --- Cross Island & Flushing Y Holiday Invitational (December Meet) Qualifying Cuts ---
+export const HOLIDAY_INVITATIONAL_CUTS = {
+    "11-12": {
+        "Boys": {
+            "200-IM": { Cut: "2:40.00", display: "2:40.00", seconds: 160.00 },
+            "200-free": { Cut: "2:25.00", display: "2:25.00", seconds: 145.00 },
+            "50-back": { Cut: "37.00", display: "37.00", seconds: 37.00 },
+            "100-breast": { Cut: "1:33.00", display: "1:33.00", seconds: 93.00 },
+            "50-free": { Cut: "30.00", display: "30.00", seconds: 30.00 },
+            "100-fly": { Cut: "1:20.00", display: "1:20.00", seconds: 80.00 }
+        }
+    }
+};
+
 // --- USA Swimming 2024-2028 Motivational Standards Database (SCY) ---
 export const STANDARDS_DATA = {
     "10&U": {
