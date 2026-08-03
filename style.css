@@ -752,8 +752,10 @@ input:focus, select:focus, textarea:focus {
 }
 
 .modal.active {
-    opacity: 1;
-    pointer-events: auto;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    z-index: 9999 !important;
 }
 
 .modal-overlay {

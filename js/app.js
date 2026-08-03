@@ -60,28 +60,36 @@ function updateSidebarProfileUI() {
 /**
  * Handles browser hash-change routing (Async)
  */
+/**
+ * Handles browser hash-change routing (Async)
+ */
 async function handleRouting() {
-    const hash = window.location.hash || '#dashboard';
-    const route = ROUTES[hash] || ROUTES['#dashboard'];
+    const rawHash = (window.location.hash || '#dashboard').split('?')[0];
+    const route = ROUTES[rawHash] || ROUTES['#dashboard'];
     
     // 1. Update active class in sidebar navigation
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
         item.classList.remove('active');
-        if (item.getAttribute('href') === hash) {
+        const href = item.getAttribute('href') || '';
+        if (href === rawHash || item.hash === rawHash || href.endsWith(rawHash)) {
             item.classList.add('active');
         }
     });
     
     // 2. Set Top Bar title
     const viewTitleEl = document.getElementById('view-title');
-    if (viewTitleEl) {
+    if (viewTitleEl && route) {
         viewTitleEl.innerText = route.title;
     }
     
     // 3. Initialize target view content (Async support)
-    if (typeof route.init === 'function') {
-        await route.init();
+    try {
+        if (route && typeof route.init === 'function') {
+            await route.init();
+        }
+    } catch (err) {
+        console.error(`Error initializing route ${rawHash}:`, err);
     }
     
     // 4. Close mobile sidebar menu drawer if open
@@ -94,70 +102,105 @@ async function handleRouting() {
 // --- Swimmer Profile Modal Handling ---
 
 function openProfileModal() {
-    const modal = document.getElementById('profile-modal');
-    const profile = getProfile();
-    
-    document.getElementById('input-swimmer-name').value = profile.name || '';
-    document.getElementById('input-swimmer-age').value = profile.age || '';
-    document.getElementById('input-swimmer-gender').value = profile.gender || 'Boys';
-    document.getElementById('input-swimmer-team').value = profile.team || '';
-    document.getElementById('input-sheets-url').value = profile.sheetsUrl || '';
-    document.getElementById('input-sheets-key').value = profile.sheetsKey || '';
-    
-    modal.classList.add('active');
+    try {
+        const modal = document.getElementById('profile-modal');
+        if (!modal) return;
+        const profile = getProfile() || {};
+        
+        const nameEl = document.getElementById('input-swimmer-name');
+        const ageEl = document.getElementById('input-swimmer-age');
+        const genderEl = document.getElementById('input-swimmer-gender');
+        const teamEl = document.getElementById('input-swimmer-team');
+        const urlEl = document.getElementById('input-sheets-url');
+        const keyEl = document.getElementById('input-sheets-key');
+        
+        if (nameEl) nameEl.value = profile.name || '';
+        if (ageEl) ageEl.value = profile.age || '';
+        if (genderEl) genderEl.value = profile.gender || 'Boys';
+        if (teamEl) teamEl.value = profile.team || '';
+        if (urlEl) urlEl.value = profile.sheetsUrl || '';
+        if (keyEl) keyEl.value = profile.sheetsKey || '';
+        
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+        modal.style.zIndex = '9999';
+    } catch (err) {
+        console.error("Error opening profile modal:", err);
+    }
 }
 
 function closeProfileModal() {
-    document.getElementById('profile-modal').classList.remove('active');
+    const modal = document.getElementById('profile-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+    }
 }
 
 function setupProfileModalListeners() {
     const form = document.getElementById('profile-form');
     
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('input-swimmer-name').value.trim();
-        const age = parseInt(document.getElementById('input-swimmer-age').value) || 0;
-        const gender = document.getElementById('input-swimmer-gender').value;
-        const team = document.getElementById('input-swimmer-team').value.trim();
-        const sheetsUrl = document.getElementById('input-sheets-url').value.trim();
-        const sheetsKey = document.getElementById('input-sheets-key').value.trim();
-        
-        const oldProfile = getProfile();
-        
-        // Save profile
-        await saveProfile({ name, age, gender, team, sheetsUrl, sheetsKey });
-        closeProfileModal();
-        updateSidebarProfileUI();
-        
-        // If URL or Key changed or added, force refetch from Google Sheets
-        if (sheetsUrl && (sheetsUrl !== oldProfile.sheetsUrl || sheetsKey !== oldProfile.sheetsKey)) {
-            const viewTitle = document.getElementById('view-title');
-            const originalTitle = viewTitle ? viewTitle.innerText : '';
-            if (viewTitle) viewTitle.innerText = "⚡ Syncing with Google Sheets...";
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            const res = await syncFromSheets(true);
+            const name = (document.getElementById('input-swimmer-name').value || '').trim();
+            const age = parseInt(document.getElementById('input-swimmer-age').value) || 0;
+            const gender = document.getElementById('input-swimmer-gender').value;
+            const team = (document.getElementById('input-swimmer-team').value || '').trim();
+            const sheetsUrl = (document.getElementById('input-sheets-url').value || '').trim();
+            const sheetsKey = (document.getElementById('input-sheets-key').value || '').trim();
             
-            if (res && res.success) {
-                if (viewTitle) viewTitle.innerText = `✓ Synced ${res.timesCount || 0} Swims from Sheets!`;
-                setTimeout(() => {
+            const oldProfile = getProfile();
+            
+            // Save profile
+            await saveProfile({ name, age, gender, team, sheetsUrl, sheetsKey });
+            closeProfileModal();
+            updateSidebarProfileUI();
+            
+            // If URL or Key changed or added, force refetch from Google Sheets
+            if (sheetsUrl && (sheetsUrl !== oldProfile.sheetsUrl || sheetsKey !== oldProfile.sheetsKey)) {
+                const viewTitle = document.getElementById('view-title');
+                const originalTitle = viewTitle ? viewTitle.innerText : '';
+                if (viewTitle) viewTitle.innerText = "⚡ Syncing with Google Sheets...";
+                
+                const res = await syncFromSheets(true);
+                
+                if (res && res.success) {
+                    if (viewTitle) viewTitle.innerText = `✓ Synced ${res.timesCount || 0} Swims from Sheets!`;
+                    setTimeout(() => {
+                        if (viewTitle) viewTitle.innerText = originalTitle;
+                    }, 2500);
+                } else {
                     if (viewTitle) viewTitle.innerText = originalTitle;
-                }, 2500);
-            } else {
-                if (viewTitle) viewTitle.innerText = originalTitle;
+                }
             }
-        }
-        
-        // Re-render active view
-        await handleRouting();
-    });
+            
+            // Re-render active view
+            await handleRouting();
+        });
+    }
     
     // Clean profile trigger listener without blocking default events
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest('.edit-profile-trigger, #open-profile-settings, #top-bar-profile-btn');
         if (trigger) {
+            e.preventDefault();
             openProfileModal();
+        }
+
+        // Direct Nav link click handler fallback
+        const navItem = e.target.closest('.nav-item');
+        if (navItem) {
+            const href = navItem.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                window.location.hash = href;
+                handleRouting();
+            }
         }
     });
 
