@@ -205,7 +205,7 @@ function setupProfileModalListeners() {
 
 // --- Application Core Entrypoint ---
 
-document.addEventListener('DOMContentLoaded', async () => {
+function bootApp() {
     // 1. Initialise localStorage schemas
     initializeStorage();
     
@@ -287,8 +287,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // 8. Fire initial routing for current load state
-    await handleRouting();
+    handleRouting();
     
     // Initialize initial icons
-    lucide.createIcons();
-});
+    if (window.lucide) lucide.createIcons();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootApp);
+} else {
+    bootApp();
+}
