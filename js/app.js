@@ -153,9 +153,23 @@ function setupProfileModalListeners() {
         await handleRouting();
     });
     
-    document.getElementById('open-profile-settings').addEventListener('click', openProfileModal);
-    document.getElementById('close-profile-modal').addEventListener('click', closeProfileModal);
-    document.getElementById('cancel-profile-btn').addEventListener('click', closeProfileModal);
+    document.querySelectorAll('.edit-profile-trigger').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openProfileModal();
+        });
+    });
+
+    const sidebarCard = document.getElementById('sidebar-profile-card');
+    if (sidebarCard) {
+        sidebarCard.addEventListener('click', openProfileModal);
+    }
+
+    const closeBtn = document.getElementById('close-profile-modal');
+    if (closeBtn) closeBtn.addEventListener('click', closeProfileModal);
+
+    const cancelBtn = document.getElementById('cancel-profile-btn');
+    if (cancelBtn) cancelBtn.addEventListener('click', closeProfileModal);
 }
 
 // --- Application Core Entrypoint ---
