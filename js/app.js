@@ -153,12 +153,10 @@ function setupProfileModalListeners() {
         await handleRouting();
     });
     
-    // Global event delegation for all profile triggers (handles dynamic DOM elements)
+    // Clean profile trigger listener without blocking default events
     document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('.edit-profile-trigger, #open-profile-settings, #top-bar-profile-btn, #sidebar-profile-card');
+        const trigger = e.target.closest('.edit-profile-trigger, #open-profile-settings, #top-bar-profile-btn');
         if (trigger) {
-            e.preventDefault();
-            e.stopPropagation();
             openProfileModal();
         }
     });
