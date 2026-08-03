@@ -41,6 +41,16 @@
                 <div class="profile-info">
                     <h3 id="swimmer-name">Swimmer Name</h3>
                     <p id="swimmer-meta">Age: -- | Team: --</p>
+                    <div id="sidebar-quick-links" style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+                        <a href="https://www.swimcloud.com/swimmer/3280704/" target="_blank" rel="noopener noreferrer" id="sidebar-swimmer-link" class="btn" style="padding: 4px 8px; font-size: 10px; background: rgba(0,240,255,0.1); color: var(--accent-cyan); border: 1px solid rgba(0,240,255,0.25); border-radius: 6px; text-decoration: none; flex: 1; justify-content: center;" title="View Swimmer Profile on SwimCloud">
+                            <i data-lucide="external-link" style="width: 10px; height: 10px;"></i>
+                            <span>Swimmer</span>
+                        </a>
+                        <a href="https://www.swimcloud.com/team/9269/" target="_blank" rel="noopener noreferrer" id="sidebar-team-link" class="btn" style="padding: 4px 8px; font-size: 10px; background: rgba(255,193,7,0.1); color: var(--accent-gold); border: 1px solid rgba(255,193,7,0.25); border-radius: 6px; text-decoration: none; flex: 1; justify-content: center;" title="View Wyckoff Sharks Team Page">
+                            <i data-lucide="shield" style="width: 10px; height: 10px;"></i>
+                            <span>Sharks</span>
+                        </a>
+                    </div>
                     <button class="btn btn-outline edit-profile-trigger" style="font-size: 11px; padding: 6px 10px; margin-top: 8px; width: 100%; background: rgba(0, 240, 255, 0.08); color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
                         <i data-lucide="user-cog" style="width: 13px; height: 13px;"></i>
                         <span>Edit Swimmer Profile</span>
@@ -159,6 +169,14 @@
                 <div class="form-group">
                     <label for="input-swimmer-team">Team / Club</label>
                     <input type="text" id="input-swimmer-team" placeholder="e.g. Blue Fins Swim Club" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="input-swimcloud-swimmer-url">Swimmer Profile Link (e.g. SwimCloud)</label>
+                    <input type="url" id="input-swimcloud-swimmer-url" placeholder="https://www.swimcloud.com/swimmer/3280704/" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="input-swimcloud-team-url">Team / Club Portal Link (e.g. SwimCloud Team)</label>
+                    <input type="url" id="input-swimcloud-team-url" placeholder="https://www.swimcloud.com/team/9269/" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="input-sheets-url">Google Sheets Sync URL</label>

@@ -46,8 +46,17 @@ const KEYS = {
     NUTRITION: 'aeroswim_nutrition'
 };
 
-// Default seeds (Clean Empty Slate for New Users)
-const DEFAULT_PROFILE = { name: "Swimmer Name", age: 14, gender: "Boys", team: "Unattached", sheetsUrl: "", sheetsKey: "" };
+// Default seeds (Clean Slate with SwimCloud Links)
+const DEFAULT_PROFILE = {
+    name: "Colin Beatty",
+    age: 14,
+    gender: "Boys",
+    team: "Wyckoff YMCA Sharks",
+    sheetsUrl: "",
+    sheetsKey: "",
+    swimcloudSwimmerUrl: "https://www.swimcloud.com/swimmer/3280704/",
+    swimcloudTeamUrl: "https://www.swimcloud.com/team/9269/"
+};
 
 const DEFAULT_TIMES = [];
 

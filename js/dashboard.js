@@ -103,7 +103,7 @@ const DASHBOARD_HTML = `
             <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: var(--text-secondary);">Swimmer Name:</span>
-                    <strong style="color: var(--text-primary);" id="dash-prof-name">Leo</strong>
+                    <strong style="color: var(--text-primary);" id="dash-prof-name">Colin Beatty</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: var(--text-secondary);">Current Age:</span>
@@ -111,7 +111,7 @@ const DASHBOARD_HTML = `
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: var(--text-secondary);">Club Team:</span>
-                    <strong style="color: var(--text-primary);" id="dash-prof-team">Aero Swim Club</strong>
+                    <strong style="color: var(--text-primary);" id="dash-prof-team">Wyckoff YMCA Sharks</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: var(--text-secondary);">Total Records:</span>
@@ -121,6 +121,41 @@ const DASHBOARD_HTML = `
                     <i data-lucide="settings"></i>
                     <span>Edit Profile Settings</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- External Swim Portals & Quick Links Card -->
+        <div class="card" style="border-left: 3px solid var(--accent-cyan); background: linear-gradient(135deg, rgba(0,240,255,0.04), rgba(18,24,41,0.6));">
+            <div class="card-header" style="margin-bottom: 12px;">
+                <h3 class="card-title" style="font-size: 15px;">
+                    <i data-lucide="globe" style="color: var(--accent-cyan);"></i>
+                    <span>Swim Portals & Quick Links</span>
+                </h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="https://www.swimcloud.com/swimmer/3280704/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: space-between; font-size: 12px; padding: 10px 14px; text-decoration: none;" title="Colin Beatty SwimCloud Profile">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="user-check" style="width: 15px; height: 15px;"></i>
+                        <span>Colin Beatty (SwimCloud)</span>
+                    </span>
+                    <i data-lucide="external-link" style="width: 14px; height: 14px; opacity: 0.7;"></i>
+                </a>
+
+                <a href="https://www.swimcloud.com/team/9269/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: space-between; font-size: 12px; padding: 10px 14px; color: var(--accent-gold); border-color: rgba(255,193,7,0.3); background: rgba(255,193,7,0.06); text-decoration: none;" title="Wyckoff YMCA Sharks Team Page">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="shield" style="width: 15px; height: 15px;"></i>
+                        <span>Wyckoff Sharks (Team)</span>
+                    </span>
+                    <i data-lucide="external-link" style="width: 14px; height: 14px; opacity: 0.7;"></i>
+                </a>
+
+                <a href="https://www.usaswimming.org/times/individual-times-search" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="justify-content: space-between; font-size: 12px; padding: 10px 14px; text-decoration: none;" title="USA Swimming Times Search">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="search" style="width: 15px; height: 15px;"></i>
+                        <span>USA Swimming Search</span>
+                    </span>
+                    <i data-lucide="external-link" style="width: 14px; height: 14px; opacity: 0.7;"></i>
+                </a>
             </div>
         </div>
     </div>

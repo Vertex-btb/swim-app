@@ -111,6 +111,8 @@ function openProfileModal() {
         const ageEl = document.getElementById('input-swimmer-age');
         const genderEl = document.getElementById('input-swimmer-gender');
         const teamEl = document.getElementById('input-swimmer-team');
+        const swimmerUrlEl = document.getElementById('input-swimcloud-swimmer-url');
+        const teamUrlEl = document.getElementById('input-swimcloud-team-url');
         const urlEl = document.getElementById('input-sheets-url');
         const keyEl = document.getElementById('input-sheets-key');
         
@@ -118,6 +120,8 @@ function openProfileModal() {
         if (ageEl) ageEl.value = profile.age || '';
         if (genderEl) genderEl.value = profile.gender || 'Boys';
         if (teamEl) teamEl.value = profile.team || '';
+        if (swimmerUrlEl) swimmerUrlEl.value = profile.swimcloudSwimmerUrl || '';
+        if (teamUrlEl) teamUrlEl.value = profile.swimcloudTeamUrl || '';
         if (urlEl) urlEl.value = profile.sheetsUrl || '';
         if (keyEl) keyEl.value = profile.sheetsKey || '';
         
@@ -152,13 +156,15 @@ function setupProfileModalListeners() {
             const age = parseInt(document.getElementById('input-swimmer-age').value) || 0;
             const gender = document.getElementById('input-swimmer-gender').value;
             const team = (document.getElementById('input-swimmer-team').value || '').trim();
+            const swimcloudSwimmerUrl = (document.getElementById('input-swimcloud-swimmer-url').value || '').trim();
+            const swimcloudTeamUrl = (document.getElementById('input-swimcloud-team-url').value || '').trim();
             const sheetsUrl = (document.getElementById('input-sheets-url').value || '').trim();
             const sheetsKey = (document.getElementById('input-sheets-key').value || '').trim();
             
             const oldProfile = getProfile();
             
             // Save profile
-            await saveProfile({ name, age, gender, team, sheetsUrl, sheetsKey });
+            await saveProfile({ name, age, gender, team, swimcloudSwimmerUrl, swimcloudTeamUrl, sheetsUrl, sheetsKey });
             closeProfileModal();
             updateSidebarProfileUI();
             
