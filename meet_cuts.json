@@ -1,0 +1,84 @@
+{
+  "_notes": "Short Course Yards. Division assumed 11-12 Boys. Event keys match the app (e.g. '200-IM'). Events with no cut at a meet are omitted. Edit values here.",
+  "course": "SCY",
+  "ageGroup": "11-12",
+  "gender": "Boys",
+  "locations": {
+    "LI Holiday Invitational": "Cross Island & Flushing YMCA",
+    "UMD Winterfest": "University of Maryland",
+    "NJ State": "NJ YMCA State Championships",
+    "NJ Silver": "NJ YMCA State Championships",
+    "NJ Bronze": "NJ YMCA State Championships"
+  },
+  "meets": {
+    "LI Holiday Invitational": {
+      "200-IM": "2:40.00",
+      "200-free": "2:25.00",
+      "50-back": "37.00",
+      "200-breast": "2:35.00",
+      "50-free": "30.00",
+      "100-fly": "1:20.00",
+      "100-back": "1:20.00",
+      "50-breast": "42.00",
+      "100-free": "1:10.00",
+      "50-fly": "38.00"
+    },
+    "UMD Winterfest": {
+      "200-IM": "2:47.59",
+      "200-free": "2:24.19",
+      "50-back": "36.49",
+      "50-free": "30.24",
+      "100-fly": "1:19.99",
+      "100-back": "1:18.19",
+      "50-breast": "41.89",
+      "100-free": "1:06.69",
+      "50-fly": "35.79",
+      "100-breast": "1:28.99"
+    },
+    "NJ State": {
+      "200-IM": "2:39.99",
+      "200-free": "2:20.44",
+      "50-back": "34.29",
+      "200-breast": "3:05.29",
+      "50-free": "29.49",
+      "100-fly": "1:16.99",
+      "100-back": "1:15.59",
+      "50-breast": "38.40",
+      "100-free": "1:04.00",
+      "50-fly": "33.39",
+      "100-IM": "1:14.49",
+      "200-back": "2:39.99",
+      "100-breast": "1:23.79"
+    },
+    "NJ Silver": {
+      "200-IM": "2:55.99",
+      "200-free": "2:32.09",
+      "50-back": "37.29",
+      "200-breast": "3:20.99",
+      "50-free": "30.99",
+      "100-fly": "1:28.49",
+      "100-back": "1:19.99",
+      "50-breast": "42.59",
+      "100-free": "1:08.49",
+      "50-fly": "36.19",
+      "100-IM": "1:19.99",
+      "200-back": "2:53.99",
+      "100-breast": "1:32.79"
+    },
+    "NJ Bronze": {
+      "200-IM": "2:56.00",
+      "200-free": "2:32.10",
+      "50-back": "37.30",
+      "200-breast": "3:21.99",
+      "50-free": "31.00",
+      "100-fly": "1:28.50",
+      "100-back": "1:20.00",
+      "50-breast": "42.60",
+      "100-free": "1:08.50",
+      "50-fly": "36.20",
+      "100-IM": "1:20.00",
+      "200-back": "2:54.00",
+      "100-breast": "1:32.80"
+    }
+  }
+}

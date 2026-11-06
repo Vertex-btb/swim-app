@@ -8,6 +8,28 @@ import { convertCourseTime } from './conversions.js';
 
 let displayUnit = 'SCY'; // 'SCY', 'LCM', 'SCM'
 let viewLayout = 'tiles'; // 'tiles' or 'table'
+let meetData = null;      // Parsed meet_cuts.json
+let selectedMeet = null;  // Key within meetData.meets
+
+const EVENT_ORDER = ['50-free','100-free','200-free','50-back','100-back','200-back','50-breast','100-breast','200-breast','50-fly','100-fly','200-fly','100-IM','200-IM'];
+
+/**
+ * Loads meet cuts from meet_cuts.json (falls back to hardcoded Holiday cuts if unavailable)
+ */
+async function loadMeetCuts() {
+    try {
+        const res = await fetch('meet_cuts.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        meetData = await res.json();
+    } catch (err) {
+        console.warn('Could not load meet_cuts.json, using built-in Holiday cuts:', err);
+        const fallback = {};
+        Object.entries(HOLIDAY_INVITATIONAL_CUTS["11-12"]["Boys"]).forEach(([ev, c]) => fallback[ev] = c.Cut);
+        meetData = { ageGroup: '11-12', gender: 'Boys', meets: { 'LI Holiday Invitational': fallback } };
+    }
+    const names = Object.keys(meetData.meets);
+    if (!selectedMeet || !names.includes(selectedMeet)) selectedMeet = names[0];
+}
 
 /**
  * Renders the Holiday Invitational Meet Tracker View
@@ -16,8 +38,10 @@ export async function initHolidayInvitationalView() {
     const container = document.getElementById('main-viewport');
     if (!container) return;
 
+    if (!meetData) await loadMeetCuts();
+
     const viewTitle = document.getElementById('view-title');
-    if (viewTitle) viewTitle.innerText = "Cross Island & Flushing Y Holiday Invitational";
+    if (viewTitle) viewTitle.innerText = "Special Meets";
 
     container.innerHTML = `
         <div class="view-content" style="animation: fadeIn var(--transition-normal);">
@@ -27,18 +51,24 @@ export async function initHolidayInvitationalView() {
                     <div>
                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
                             <span class="badge badge-aaaa" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">December Meet Target</span>
-                            <span style="font-size: 12px; color: var(--text-muted);"><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> Cross Island & Flushing YMCA</span>
+                            <span style="font-size: 12px; color: var(--text-muted);"><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> ${(meetData.locations && meetData.locations[selectedMeet]) || 'Location TBD'}</span>
                         </div>
                         <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 6px;">
-                            Cross Island & Flushing Y Holiday Invitational
+                            ${selectedMeet}
                         </h2>
                         <p style="font-size: 13px; color: var(--text-secondary); max-width: 680px;">
-                            Track your personal best swims against official qualifying time standards for the December 11/12 Boys Division. All converted times dynamically project your short course yard readiness.
+                            Track your personal best swims against qualifying time standards for the ${meetData.ageGroup} ${meetData.gender} division. Cuts are loaded from meet_cuts.json.
                         </p>
                     </div>
 
                     <!-- Display Unit & Layout Controls -->
                     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                        <div>
+                            <label style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; font-weight: 600;">Meet</label>
+                            <select id="holiday-meet-select" class="form-control" style="padding: 8px 12px; font-size: 13px; min-width: 190px; background: rgba(0,0,0,0.3);">
+                                ${Object.keys(meetData.meets).map(m => `<option value="${m}" ${m === selectedMeet ? 'selected' : ''}>${m}</option>`).join('')}
+                            </select>
+                        </div>
                         <div>
                             <label style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; font-weight: 600;">Display Course</label>
                             <select id="holiday-unit-select" class="form-control" style="padding: 8px 12px; font-size: 13px; min-width: 160px; background: rgba(0,0,0,0.3);">
@@ -80,8 +110,11 @@ async function renderHolidayTrackerSheet() {
         const profile = getProfile() || {};
         const times = (await getTimes()) || [];
 
-        const targetCuts = HOLIDAY_INVITATIONAL_CUTS["11-12"]["Boys"];
-        const targetEventKeys = Object.keys(targetCuts);
+        const targetCuts = meetData.meets[selectedMeet];
+        const targetEventKeys = Object.keys(targetCuts).sort((a, b) => {
+            const ia = EVENT_ORDER.indexOf(a), ib = EVENT_ORDER.indexOf(b);
+            return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+        });
 
         // Group valid logged times by event
         const eventMap = {};
@@ -111,7 +144,7 @@ async function renderHolidayTrackerSheet() {
         let tableRowsHtml = '';
 
         targetEventKeys.forEach(evKey => {
-            const targetSCYCutStr = targetCuts[evKey].Cut;
+            const targetSCYCutStr = targetCuts[evKey];
             const targetSCYSecs = timeStringToSeconds(targetSCYCutStr);
 
             // Convert target cut into displayUnit
@@ -200,7 +233,7 @@ async function renderHolidayTrackerSheet() {
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
                             <div>
                                 <span style="font-size: 10px; text-transform: uppercase; color: var(--accent-gold); font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 2px;">
-                                    11-12 Boys &bull; Target Cut
+                                    ${meetData.ageGroup} ${meetData.gender} &bull; ${selectedMeet}
                                 </span>
                                 <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: #fff; margin: 0;">
                                     ${fullEventTitle}
@@ -355,8 +388,16 @@ async function renderHolidayTrackerSheet() {
  */
 function bindHolidayEvents() {
     const unitSelect = document.getElementById('holiday-unit-select');
+    const meetSelect = document.getElementById('holiday-meet-select');
     const btnTiles = document.getElementById('btn-holiday-tiles');
     const btnTable = document.getElementById('btn-holiday-table');
+
+    if (meetSelect) {
+        meetSelect.addEventListener('change', (e) => {
+            selectedMeet = e.target.value;
+            initHolidayInvitationalView();
+        });
+    }
 
     if (unitSelect) {
         unitSelect.addEventListener('change', (e) => {

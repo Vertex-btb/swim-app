@@ -21,7 +21,7 @@ const ROUTES = {
     '#standards': { title: 'Time Standards', init: initStandardsView },
     '#analytics': { title: 'Performance Analytics', init: initAnalyticsView },
     '#forecast': { title: 'Season & Course Forecast', init: initForecastView },
-    '#holiday-invitational': { title: 'Holiday Invitational Target', init: initHolidayInvitationalView },
+    '#holiday-invitational': { title: 'Special Meets', init: initHolidayInvitationalView },
     '#workouts': { title: 'Training Log', init: initWorkoutsView },
     '#nutrition': { title: 'Nutrition & Hydration', init: initNutritionView },
     '#data-manager': { title: 'Data Manager', init: initDataManagerView }
