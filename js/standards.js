@@ -4,6 +4,44 @@
 
 import { getProfile, getTimes, timeStringToSeconds, secondsToTimeString } from './storage.js';
 
+/**
+ * Prints the Time Standards page as-is (no special formatting) fitted onto a single
+ * landscape page. Uses the browser's print dialog -> "Save as PDF".
+ */
+export function exportStandardsPDF() {
+    const PAGE_W = 998;  // printable px: 10.4in @ 96dpi (landscape letter, 0.3in margins)
+    const PAGE_H = 758;  // printable px: 7.9in
+    const LAYOUT_W = 1150; // px width the page is laid out at before scaling
+
+    const style = document.createElement('style');
+    style.id = 'standards-print-style';
+    style.textContent = `
+        @page { size: letter landscape; margin: 0.3in; }
+        html, body, .app-container, .main-content, #main-viewport {
+            height: auto !important; min-height: 0 !important; overflow: visible !important;
+            display: block !important; margin: 0 !important; padding: 0 !important;
+            -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+        }
+        .sidebar, .top-bar, .sidebar-backdrop, .no-print { display: none !important; }
+        #main-viewport { width: ${LAYOUT_W}px !important; }
+        #main-viewport .table-container { overflow: visible !important; }
+        #main-viewport table { min-width: 0 !important; width: 100% !important; }
+    `;
+    document.head.appendChild(style);
+
+    const viewport = document.getElementById('main-viewport');
+    const contentH = viewport.scrollHeight;
+    const scale = Math.min(PAGE_W / LAYOUT_W, PAGE_H / contentH, 1);
+    style.textContent += `\n#main-viewport { zoom: ${scale.toFixed(3)}; }`;
+
+    const cleanup = () => {
+        style.remove();
+        window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+}
+
 // Helper to map numeric age to standard age brackets
 export function getAgeBracketForAge(age, system = 'USA') {
     const numAge = parseInt(age) || 14;
@@ -629,6 +667,11 @@ export async function initStandardsView() {
                                 ${currentSystem === 'USA' ? '2024 - 2028 Quad' : '2025 - 2026 Season'}
                             </span>
                         </div>
+
+                        <button id="standards-pdf-btn" class="btn btn-secondary no-print" style="padding: 10px 16px; background: rgba(157, 78, 237, 0.15); color: #9d4edd; border: 1px solid rgba(157, 78, 237, 0.3); font-weight: 700; border-radius: 12px;" title="Save this page as a single-page PDF">
+                            <i data-lucide="file-text"></i>
+                            <span>Export PDF</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -706,6 +749,8 @@ export async function initStandardsView() {
         selectedGender = e.target.value;
         initStandardsView();
     });
+
+    bindClick('standards-pdf-btn', exportStandardsPDF);
 
     lucide.createIcons();
 }
